@@ -4,7 +4,10 @@ WORKDIR /nft-details-server
 COPY package.json /nft-details-server
 COPY yarn.lock /nft-details-server
 RUN yarn install
-ENV DB_CONN_STRING="mongodb+srv://salesadmin:admin@sales-api-db-cluster.kwbdo.mongodb.net/nftdetailsdb?retryWrites=true&w=majority"
+ENV POSTGRES_HOST_ADDRESS="karmaplex-dev.cci8chfabnrw.us-east-1.rds.amazonaws.com"
+ENV POSTGRES_USER_NAME="whbfnsddsd28"
+ENV POSTGRES_PASSWORD="xXvT43cVQuEtDVCYyNv!Aua24ea7yXU!E_pwPxs8ePskRmkhMe2.P6Q7WTnMF7NuqTAGaFRj*mszRe9vEeQnyxpXi2q29uE-98RX"
+ENV POSTGRES_DATABASE="karmaplex"
 ENV S3_ACCESS_KEY="AKIAUIURKTV6DBI3M67L"
 ENV S3_SECRET_ACCESS_KEY="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"
 ENV S3_REGION="us-east-1"
