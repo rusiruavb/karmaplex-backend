@@ -5,7 +5,6 @@ const moment = require('moment')
 const database = require('./utils/DBConnection')
 const nftDetails = require('./packages/nft_details')
 const launchpadSubmission = require('./packages/launchpad_submission')
-const nftTags = require('./packages/nft_tags')
 
 const main = () => {
   const app = express()
@@ -19,7 +18,6 @@ const main = () => {
   })
   app.use(nftDetails())
   app.use(launchpadSubmission())
-  app.use(nftTags())
 
   app.get('/', (req, res) => {
     res.send(`
