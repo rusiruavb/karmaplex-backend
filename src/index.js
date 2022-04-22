@@ -5,6 +5,7 @@ const moment = require('moment')
 const database = require('./utils/DBConnection')
 const nftDetails = require('./packages/nft_details')
 const launchpadSubmission = require('./packages/launchpad_submission')
+const nftTags = require('./packages/nft_tags')
 
 const main = () => {
   const app = express()
@@ -18,9 +19,17 @@ const main = () => {
   })
   app.use(nftDetails())
   app.use(launchpadSubmission())
+  app.use(nftTags())
 
   app.get('/', (req, res) => {
-    res.json({ message: 'Test API is running', dateTime: new Date() })
+    res.send(`
+      <div style="display: flex; justify-content: center;">
+        <h2 style="margin: 0px;">Karmaplex Backend API</h2>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <h3 style="margin: 0px;">${moment(new Date()).format('LLLL')}<//h3>
+      </div>
+    `)
   })
 
   app.listen(port, () => {
