@@ -30,7 +30,8 @@ const LaunchpadSubmission = sequelize.define('launchpad_submissions', {
   other: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
   collection_image_url: { type: DataTypes.STRING, allowNull: false},
   collection_banner_url: { type: DataTypes.STRING, allowNull: false },
-  approval_status: { type: DataTypes.ENUM('Pending', 'Approved'), defaultValue: 'Pending' }
+  approval_status: { type: DataTypes.ENUM('Pending', 'Approved'), defaultValue: 'Pending' },
+  categories: { type: DataTypes.JSON, allowNull: true, defaultValue: {} }
 }, {
   paranoid: true,
   timestamps: true

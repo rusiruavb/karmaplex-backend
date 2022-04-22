@@ -97,6 +97,7 @@ const addSubmission = async (req, res) => {
       mint_price: userData.mint_price,
       marketing_package: userData.marketing_package,
       other: userData.other,
+      categories: userData.categories,
       collection_image_url: collectionImageURL,
       collection_banner_url: collectionBannerURL,
     }
