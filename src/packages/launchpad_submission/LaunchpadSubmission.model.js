@@ -12,7 +12,7 @@ const LaunchpadSubmission = sequelize.define('launchpad_submissions', {
   is_derivative: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
   discord_id: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
   email: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
-  project_description: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
+  project_description: { type: DataTypes.STRING(2000), allowNull: true, defaultValue: null },
   long_trm_goals: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
   team_description: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
   experience: { type: DataTypes.STRING, allowNull: true, defaultValue: null },
@@ -31,7 +31,8 @@ const LaunchpadSubmission = sequelize.define('launchpad_submissions', {
   collection_image_url: { type: DataTypes.STRING, allowNull: false},
   collection_banner_url: { type: DataTypes.STRING, allowNull: false },
   approval_status: { type: DataTypes.ENUM('Pending', 'Approved'), defaultValue: 'Pending' },
-  categories: { type: DataTypes.JSON, allowNull: true, defaultValue: {} }
+  categories: { type: DataTypes.JSON, allowNull: true, defaultValue: {} },
+  featured: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false }
 }, {
   paranoid: true,
   timestamps: true

@@ -100,6 +100,7 @@ const addSubmission = async (req, res) => {
       categories: userData.categories,
       collection_image_url: collectionImageURL,
       collection_banner_url: collectionBannerURL,
+      featured: false,
     }
 
     const submission = await LaunchpadSubmission.create(submissionDoc)
@@ -118,9 +119,12 @@ const getSubmissions = async (req, res) => {
       let formattedSubmissions = []
       for (let submission of submissions) {
         let item = {
+          id: submission.id,
           creator_public_key: submission.creator_public_key,
           collection_name: submission.collection_name,
           approval_status: submission.approval_status,
+          exp_mint_date: submission.exp_mint_date,
+          featured: submission.featured,
           actions: {
             address: submission.creator_public_key,
             status: submission.approval_status
@@ -131,7 +135,7 @@ const getSubmissions = async (req, res) => {
       }
       res.status(200).json({ data: formattedSubmissions, datetime: new Date() })
     } else {
-      throw new Error('Launchpad submissions are not available')
+      res.status(200).json({ data: [], datetime: new Date() })
     }
   } catch (error) {
     res.status(400).json({ message: error.message, datetime: new Date() })
@@ -220,6 +224,58 @@ const findByMint = async (req, res) => {
   }
 }
 
+const makrAsFeatured = async (req, res) => {
+  try {
+    const submissionId = req.params.id
+    const submission = await LaunchpadSubmission.findOne({
+      where: { id: submissionId }
+    })
+
+    if (submission) {
+      // Find current featured one
+      const currentFeaturedSubmission = await LaunchpadSubmission.findOne({
+        where: { featured: true }
+      })
+
+      // If current activated one not equal to passed id -> Mark the current as false
+      if (currentFeaturedSubmission && currentFeaturedSubmission.id !== submissionId) {
+        await LaunchpadSubmission.update(
+          { featured: false },
+          { where: { id: currentFeaturedSubmission.id }}
+        )
+      }
+
+      // Mark the passed submission as active one
+      const activatedSubmission = await LaunchpadSubmission.update(
+        { featured: true },
+        { where: {id: submission.id }}
+      )
+
+      return res.status(200).json(activatedSubmission)
+    } else {
+      throw new Error("Submission details are not found")
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message, datetime: new Date() })
+  }
+}
+
+const getFeaturedSubmission = async (req, res) => {
+  try {
+    const featuredSubmission = await LaunchpadSubmission.findOne({
+      where: { featured: true }
+    })
+
+    if (featuredSubmission) {
+      return res.status(200).json(featuredSubmission)
+    } else {
+      return res.status(200).json({})
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message, datetime: new Date() })
+  }
+}
+
 const findDuplicate = async (collectionName) => {
   const duplicateDocs = await LaunchpadSubmission.findAll({
     where: { collection_name: collectionName }
@@ -243,5 +299,7 @@ module.exports = {
   getSubmissions,
   statusToApprove,
   findByCollectionName,
-  findByMint
+  findByMint,
+  makrAsFeatured,
+  getFeaturedSubmission,
 }
