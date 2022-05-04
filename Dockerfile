@@ -1,8 +1,8 @@
 FROM node:14.18-alpine AS BASE_IMAGE
 RUN apk add --no-cache nodejs npm
 WORKDIR /nft-details-server
-COPY package.json /nft-details-server
-COPY yarn.lock /nft-details-server
+COPY ./package.json /nft-details-server
+COPY ./yarn.lock /nft-details-server
 RUN yarn install
 ENV POSTGRES_HOST_ADDRESS="karmaplex-dev.cci8chfabnrw.us-east-1.rds.amazonaws.com"
 ENV POSTGRES_USER_NAME="whbfnsddsd28"
